@@ -66,11 +66,14 @@ router.patch("/:id", async (req, res, next) =>{
 //eliminar un MIEMBRO DEL TEAMWORK 
 router.patch("/:id/remove/:userid", async (req, res, next) =>{
     const { members } = req.body;
-    const {id} = req.params
+    const {id,  userid} = req.params
     //el id del member ya viene dado en el body???
     try{
-        //?? método correcto
-        await TeamWorkModel.findByIdAndDelete(id,{members})
+        await TeamWorkModel.findByIdAndUpdate(id, {
+            $pull:{
+                members : userid
+            }
+        })
         res.json("miembro eliminado", members)
     }catch(err) {
         next(err)
@@ -81,9 +84,14 @@ router.patch("/:id/remove/:userid", async (req, res, next) =>{
 router.patch("/:id/quit", async (req, res, next) =>{
     const {id} = req.params
     const { members } = req.body;
-    //conseguir el id del usuario del fontend //??payload
+    //conseguir el id del usuario del fontend via payload
     //comparar el id del usuario con el el Type.Object.Id del modelo 
-    await TeamWorkModel.findByIdAndDelete(id, )
+    await TeamWorkModel.findByIdAndUpdate(id, {
+
+        $pull:{
+            members: req.payload.id
+        }
+    })
     res.json(team)
     
 })  
