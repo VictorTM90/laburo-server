@@ -89,10 +89,9 @@ router.post("/login", async (req, res, next) => {
   }
 
   //! ruta para verificar si tiene un token valido cuando vuelva a la página.
-
-  router.get("/verify", isAuthenticated, (req, res, next) => {
-    res.status(200).json();
-  });
 });
 
+router.get("/verify", isAuthenticated, (req, res, next) => {
+  res.status(200).json();
+});
 module.exports = router;
