@@ -14,7 +14,6 @@ const taskSchema = new Schema (
 
         title:{
             type:String,
-            required:true
         },
 
         description:String,

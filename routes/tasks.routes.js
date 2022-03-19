@@ -16,11 +16,11 @@ router.get("/", async (req, res, next) => {
 
 //crear nueva tarea
 router.post("/", async (req, res, next) => {
-    
-    const { creator, date, description,  dueDate, assigned, taskType, teamwork, isUrgent, isDone } = req.body;
+    console.log(req.body, "lalala")
+    const { creator, date, description,  dueDate, assigned, taskType, teamwork, isUrgent, isDone, title } = req.body;
 
     try{
-        const response = await TaskModel.create({creator, date, description,  dueDate, assigned, taskType, teamwork, isUrgent, isDone})
+        const response = await TaskModel.create({creator, date, description,  dueDate, assigned, taskType, teamwork, isUrgent, isDone, title})
         res.json(response)
     }catch(err) {
         next(err)
