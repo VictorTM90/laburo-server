@@ -3,11 +3,12 @@ const TaskModel = require("../models/Task.model")
 
 //* Aquí van todas nuestras rutas de tasks
 
-//obtener todas las tareas por título
+//obtener todas las tareas por título y fecha
 router.get("/", async (req, res, next) => {
 
     try{
-        const response = await TaskModel.find().select("title")
+        // const response = await TaskModel.find().select("date")
+        const response = await TaskModel.find()
         res.json(response)
     }catch(err) {
         next(err);
@@ -17,10 +18,10 @@ router.get("/", async (req, res, next) => {
 //crear nueva tarea
 router.post("/", async (req, res, next) => {
     console.log(req.body, "lalala")
-    const { creator, date, description,  dueDate, assigned, taskType, teamwork, isUrgent, isDone, title } = req.body;
+    const { creator, start, description,  end, assigned, taskType, teamwork, isUrgent, isDone, title } = req.body;
 
     try{
-        const response = await TaskModel.create({creator, date, description,  dueDate, assigned, taskType, teamwork, isUrgent, isDone, title})
+        const response = await TaskModel.create({creator, start , end, description, assigned, taskType, teamwork, isUrgent, isDone, title})
         res.json(response)
     }catch(err) {
         next(err)
@@ -43,10 +44,10 @@ router.get("/:id", async (req, res, next) => {
 // ruta para modificar una task de la BD  
 router.patch("/:id", async (req, res, next) => {
     const { id } = req.params;
-    const { creator, date, description,  dueDate, assigned, taskType, teamwork, isUrgent, isDone } = req.body;
+    const { creator, start, description,  end, assigned, taskType, teamwork, isUrgent, isDone } = req.body;
 
     try{
-        await TaskModel.findByIdAndUpdate(id, {creator, date, description,  dueDate, assigned, taskType, teamwork, isUrgent, isDone})
+        await TaskModel.findByIdAndUpdate(id, {creator, start, description,  end, assigned, taskType, teamwork, isUrgent, isDone})
         res.json("elemento actualizado")
     }catch(err) {
         next(err)

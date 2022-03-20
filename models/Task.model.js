@@ -7,9 +7,9 @@ const taskSchema = new Schema (
             ref: "User"
         }, 
 
-        date: {
+        start: {
             type: Date,
-            default: Date.now
+            default: Date
             }, 
 
         title:{
@@ -18,7 +18,7 @@ const taskSchema = new Schema (
 
         description:String,
         
-        dueDate: Date, 
+        end: Date, 
 
         assigned: {
             type: Schema.Types.ObjectId,
