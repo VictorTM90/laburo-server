@@ -44,10 +44,12 @@ router.get("/:id", async (req, res, next) => {
 // ruta para modificar una task de la BD  
 router.patch("/:id", async (req, res, next) => {
     const { id } = req.params;
-    const { creator, start, description,  end, assigned, taskType, teamwork, isUrgent, isDone } = req.body;
+    const { creator, start, description,  end, assigned, taskType, teamwork, isUrgent, isDone, title} = req.body;
 
+        console.log(title)
+        
     try{
-        await TaskModel.findByIdAndUpdate(id, {creator, start, description,  end, assigned, taskType, teamwork, isUrgent, isDone})
+        await TaskModel.findByIdAndUpdate(id, {creator, start, description,  end, assigned, taskType, teamwork, isUrgent, isDone, title})
         res.json("elemento actualizado")
     }catch(err) {
         next(err)
