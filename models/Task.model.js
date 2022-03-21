@@ -42,6 +42,7 @@ const taskSchema = new Schema (
         },  
         isDone: {
             type:String, 
+            default: "To do",
             enum:["To do", "Doing", "Done"]
         }
 }
