@@ -3,7 +3,7 @@ const TaskModel = require("../models/Task.model");
 
 //* Aquí van todas nuestras rutas de tasks
 
-//obtener todas las tareas por título y fecha
+//obtener todas las tareas 
 router.get("/", async (req, res, next) => {
   try {
     // const response = await TaskModel.find().select("date")
