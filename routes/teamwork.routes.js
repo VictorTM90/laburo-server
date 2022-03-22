@@ -7,7 +7,8 @@ const User = require("../models/User.model");
 //obtener todos los teamwork creados por el usuario
 router.get("/", async (req, res, next) => {
   try {
-    const response = await TeamWorkModel.find().select("name");
+    const response = await TeamWorkModel.find().populate("members");
+    // kata time! quitar los passwords de los miembros
     res.json(response);
   } catch (err) {
     next(err);
@@ -16,7 +17,7 @@ router.get("/", async (req, res, next) => {
 
 //crear un nuevo teamwork
 router.post("/", async (req, res, next) => {
-  const { name, creator, members } = req.body;
+  const { name, members } = req.body;
   const { _id } = req.payload;
   try {
     const response = await TeamWorkModel.create({
@@ -33,9 +34,10 @@ router.post("/", async (req, res, next) => {
 // ver un teamwork específico
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
+  console.log(id, "BACKEND");
 
   try {
-    const response = await TeamWorkModel.findById(id);
+    const response = await TeamWorkModel.findById(id).populate("members")
     res.json(response);
   } catch (err) {
     next(err);
@@ -56,11 +58,11 @@ router.delete("/:id", async (req, res, next) => {
 
 //ruta para modificar elementos del teamwork en la BD
 router.patch("/:id", async (req, res, next) => {
-  const { name, creator, members } = req.body;
+  const { name, members } = req.body;
   const { id } = req.params;
 
   try {
-    await TeamWorkModel.findByIdAndUpdate(id, { name, creator, members });
+    await TeamWorkModel.findByIdAndUpdate(id, { name, members });
     res.json("elemento actualizado");
   } catch (err) {
     next(err);
@@ -69,7 +71,7 @@ router.patch("/:id", async (req, res, next) => {
 
 //eliminar un MIEMBRO DEL TEAMWORK
 router.patch("/:id/remove/:userid", async (req, res, next) => {
-  const { members } = req.body;
+  // const { member } = req.body;
   const { id, userid } = req.params;
   //el id del member ya viene dado en el body???
   try {
@@ -78,7 +80,7 @@ router.patch("/:id/remove/:userid", async (req, res, next) => {
         members: userid,
       },
     });
-    res.json("miembro eliminado", members);
+    res.json("miembro eliminado");
   } catch (err) {
     next(err);
   }

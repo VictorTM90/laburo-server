@@ -5,9 +5,11 @@ const TaskModel = require("../models/Task.model");
 
 //obtener todas las tareas 
 router.get("/", async (req, res, next) => {
+  const { _id } =req.payload
+
   try {
     // const response = await TaskModel.find().select("date")
-    const response = await TaskModel.find();
+    const response = await TaskModel.find({creator:_id});
     res.json(response);
   } catch (err) {
     next(err);
@@ -16,9 +18,8 @@ router.get("/", async (req, res, next) => {
 
 //crear nueva tarea
 router.post("/", async (req, res, next) => {
-  console.log(req.body, "lalala");
+
   const {
-    creator,
     start,
     description,
     end,
@@ -30,13 +31,15 @@ router.post("/", async (req, res, next) => {
     title,
   } = req.body;
 
+  const { _id } =req.payload
+
   try {
     const response = await TaskModel.create({
-      creator,
+      creator : _id,
       start,
       end,
       description,
-      assigned,
+      //assigned, trabajar luego
       taskType,
       teamwork,
       isUrgent,
