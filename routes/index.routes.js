@@ -18,6 +18,6 @@ const teamworkRoutes = require("./teamwork.routes");
 router.use("/teamwork",isAuthenticated, teamworkRoutes);
 
 const userRoutes = require("./user.routes");
-router.use("/user",isAuthenticated, userRoutes);
+router.use("/user", isAuthenticated, userRoutes);
 
 module.exports = router;
