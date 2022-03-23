@@ -1,57 +1,50 @@
 const { Schema, model } = require("mongoose");
 
-const taskSchema = new Schema (
-    {
-        creator: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        }, 
+const taskSchema = new Schema({
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 
-        start: {
-            type: Date,
-            default: Date
-            }, 
+  start: {
+    type: Date,
+    default: Date,
+  },
 
-        title:{
-            type:String,
-        },
+  title: {
+    type: String,
+  },
 
-        description:String,
-        
-        end: Date, 
+  description: String,
 
-        assigned: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        },
+  end: Date,
 
-        taskType:{
-            type:String,
-            enum:["Personal", "TeamWork"]
-          }, 
-        
-        teamwork: {
-            type: Schema.Types.ObjectId,
-            ref: "TeamWork"
-          },
-       
-        
-        isUrgent: {
-            type: Boolean,
-            default:false, 
-        },  
-        isDone: {
-            type:String, 
-            default:"To do",
-            // enum:["To do", "Doing", "Done"]
-        }
-}
+  assigned: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 
+  taskType: {
+    type: String,
+    enum: ["Personal", "TeamWork"],
+  },
 
-)
+  teamwork: {
+    type: Schema.Types.ObjectId,
+    ref: "TeamWork",
+  },
 
+  isUrgent: {
+    type: Boolean,
+    default: false,
+  },
+  isDone: {
+    type: String,
+    default: "To do",
+    // enum:["To do", "Doing", "Done"]
+  },
+});
 
 const TaskModel = model("Task", taskSchema);
-
 
 module.exports = TaskModel;

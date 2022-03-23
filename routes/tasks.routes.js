@@ -3,41 +3,41 @@ const TaskModel = require("../models/Task.model");
 
 //* Aquí van todas nuestras rutas de tasks
 
-//obtener tareas del teamwork 
-router.get("/teamwork/:id",  async (req, res, next) => {
+//obtener tareas del teamwork
+router.get("/teamwork/:id", async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const response = await TaskModel.find({teamwork: id})
+    const response = await TaskModel.find({ teamwork: id });
 
-    res.json(response);
-  } catch (err) {
-    next(err);
-  }
-
-})
-
-
-
-//obtener todas las tareas 
-router.get("/", async (req, res, next) => {
-  const { _id } =req.payload
-
-  try {
-    // const response = await TaskModel.find().select("date")
-    const response = await TaskModel.find({
-      creator:_id,
-      assigned:_id
-    });
     res.json(response);
   } catch (err) {
     next(err);
   }
 });
 
+//obtener todas las tareas
+router.get("/", async (req, res, next) => {
+  const { _id } = req.payload;
+
+  try {
+  
+    const response = await TaskModel.find({
+      $or: [{ creator: _id }, { assigned: _id }],
+    }).populate(["assigned", "teamwork", "creator"]);
+   
+    const filteredTasks = response.filter(
+      (task) => task.assigned?._id.toString() === _id
+    );
+    res.json(filteredTasks);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 //crear nueva tarea
 router.post("/", async (req, res, next) => {
-
   const {
     start,
     description,
@@ -50,15 +50,15 @@ router.post("/", async (req, res, next) => {
     title,
   } = req.body;
 
-  const { _id } =req.payload
+  const { _id } = req.payload;
 
   try {
     const response = await TaskModel.create({
-      creator : _id,
+      creator: _id,
       start,
       end,
       description,
-      //assigned, trabajar luego
+      assigned,
       taskType,
       teamwork,
       isUrgent,
@@ -76,7 +76,12 @@ router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const response = await TaskModel.findById(id);
+    const response = await TaskModel.findById(id).populate([
+      "assigned",
+      "teamwork",
+      "creator",
+    ]);
+
     res.json(response);
   } catch (err) {
     next(err);
@@ -112,7 +117,14 @@ router.patch("/:id", async (req, res, next) => {
       isDone,
       title,
     });
-    res.json("elemento actualizado");
+
+    const response = await TaskModel.findById(id).populate([
+      "assigned",
+      "teamwork",
+      "creator",
+    ]);
+
+    res.json(response);
   } catch (err) {
     next(err);
   }
@@ -129,10 +141,5 @@ router.delete("/:id", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
-
 
 module.exports = router;
