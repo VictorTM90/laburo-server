@@ -3,6 +3,22 @@ const TaskModel = require("../models/Task.model");
 
 //* Aquí van todas nuestras rutas de tasks
 
+//obtener tareas del teamwork 
+router.get("/teamwork/:id",  async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const response = await TaskModel.find({teamwork: id})
+
+    res.json(response);
+  } catch (err) {
+    next(err);
+  }
+
+})
+
+
+
 //obtener todas las tareas 
 router.get("/", async (req, res, next) => {
   const { _id } =req.payload
@@ -110,5 +126,10 @@ router.delete("/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+
+
 
 module.exports = router;

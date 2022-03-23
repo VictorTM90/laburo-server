@@ -86,7 +86,7 @@ router.post("/login", async (req, res, next) => {
     );
 
     //* SI TODO HA SALIDO BIEN, ENVIAMOS EL TOKEN AL FRONTEND PARA GUARDARLO EN EL LOCALSTORAGE.
-    res.status(200).json({ authToken });
+    res.status(200).json({ authToken, _id: foundUser._id });
   } catch (err) {
     next(err);
   }

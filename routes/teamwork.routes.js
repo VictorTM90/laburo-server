@@ -86,6 +86,11 @@ router.patch("/:id/remove/:userid", async (req, res, next) => {
   }
 });
 
+
+
+
+
+
 //abandonar el equipo como miembro
 router.patch("/:id/quit", async (req, res, next) => {
   const { id } = req.params;
