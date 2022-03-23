@@ -34,7 +34,7 @@ router.post("/", async (req, res, next) => {
 // ver un teamwork específico
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
-  console.log(id, "BACKEND");
+  
 
   try {
     const response = await TeamWorkModel.findById(id).populate("members")
