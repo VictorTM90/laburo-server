@@ -27,7 +27,7 @@ router.get("/", async (req, res, next) => {
     // const response = await TaskModel.find().select("date")
     const response = await TaskModel.find({
       creator:_id,
-    //  assigned:_id
+      assigned:_id
     });
     res.json(response);
   } catch (err) {

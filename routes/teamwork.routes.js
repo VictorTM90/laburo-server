@@ -30,11 +30,23 @@ router.post("/", async (req, res, next) => {
     next(err);
   }
 });
+//para acceder a los miembros de los teamworks en los que el usuario es el creator.  
+router.get("/creatorteams", async (req, res, next) => {
+  const { _id } = req.payload;
+
+  console.log(_id)
+  try {
+    const response = await TeamWorkModel.find({creator: _id}).populate("members")
+
+    res.json(response);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // ver un teamwork específico
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
-  
 
   try {
     const response = await TeamWorkModel.findById(id).populate("members")
@@ -43,6 +55,9 @@ router.get("/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+
+
 
 //ruta para eliminar un teamwork de la BD
 router.delete("/:id", async (req, res, next) => {
