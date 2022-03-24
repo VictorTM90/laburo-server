@@ -8,7 +8,11 @@ router.get("/teamwork/:id", async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const response = await TaskModel.find({ teamwork: id });
+    const response = await TaskModel.find({ teamwork: id }).populate([
+      "assigned",
+      "teamwork",
+      "creator",
+    ]);
 
     res.json(response);
   } catch (err) {
