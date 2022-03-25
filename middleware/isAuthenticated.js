@@ -5,7 +5,7 @@ const isAuthenticated = jwt({
   algorithms: ["HS256"],
   requestProperty: "payload",
   getToken: (req) => {
-    // console.log("req.headers.authorization", req.headers.authorization);
+   
     if (
       req.headers.authorization &&
       req.headers.authorization.split(" ")[0] === "Bearer"
@@ -20,8 +20,6 @@ const isAuthenticated = jwt({
   },
 });
 
-//*COMENTARIOS DE JORGE:
-// o un next( si todo va bien)
-// o un error de tipo err.name === 'UnauthorizedError' si no hay token o el token no es valido
+
 
 module.exports = isAuthenticated;

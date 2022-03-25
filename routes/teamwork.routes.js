@@ -8,7 +8,6 @@ const User = require("../models/User.model");
 router.get("/", async (req, res, next) => {
   try {
     const response = await TeamWorkModel.find().populate("members");
-    // kata time! quitar los passwords de los miembros
     res.json(response);
   } catch (err) {
     next(err);
@@ -34,7 +33,6 @@ router.post("/", async (req, res, next) => {
 router.get("/creatorteams", async (req, res, next) => {
   const { _id } = req.payload;
 
-  console.log(_id)
   try {
     const response = await TeamWorkModel.find({creator: _id}).populate("members")
 
@@ -86,9 +84,9 @@ router.patch("/:id", async (req, res, next) => {
 
 //eliminar un MIEMBRO DEL TEAMWORK
 router.patch("/:id/remove/:userid", async (req, res, next) => {
-  // const { member } = req.body;
+  
   const { id, userid } = req.params;
-  //el id del member ya viene dado en el body???
+ 
   try {
     await TeamWorkModel.findByIdAndUpdate(id, {
       $pull: {
@@ -107,17 +105,18 @@ router.patch("/:id/remove/:userid", async (req, res, next) => {
 
 
 //abandonar el equipo como miembro
-router.patch("/:id/quit", async (req, res, next) => {
-  const { id } = req.params;
-  const { members } = req.body;
-  //conseguir el id del usuario del fontend via payload
-  //comparar el id del usuario con el el Type.Object.Id del modelo
-  await TeamWorkModel.findByIdAndUpdate(id, {
-    $pull: {
-      members: req.payload.id,
-    },
-  });
-  res.json(team);
-});
+// router.patch("/:id/quit", async (req, res, next) => {
+//   const { id } = req.params;
+//   const { members } = req.body;
+//   //conseguir el id del usuario del fontend via payload
+//   //comparar el id del usuario con el el Type.Object.Id del modelo
+//   await TeamWorkModel.findByIdAndUpdate(id, {
+//     $pull: {
+//       members: req.payload.id,
+//     },
+//   });
+//   res.json(team);
+// });
+
 
 module.exports = router;
