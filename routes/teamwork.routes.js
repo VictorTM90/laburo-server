@@ -99,24 +99,17 @@ router.patch("/:id/remove/:userid", async (req, res, next) => {
   }
 });
 
-
-
-
-
-
 //abandonar el equipo como miembro
-// router.patch("/:id/quit", async (req, res, next) => {
-//   const { id } = req.params;
-//   const { members } = req.body;
-//   //conseguir el id del usuario del fontend via payload
-//   //comparar el id del usuario con el el Type.Object.Id del modelo
-//   await TeamWorkModel.findByIdAndUpdate(id, {
-//     $pull: {
-//       members: req.payload.id,
-//     },
-//   });
-//   res.json(team);
-// });
+router.patch("/:id/quit", async (req, res, next) => {
+     const { id } = req.params;
+    const { members } = req.body;
+    await TeamWorkModel.findByIdAndUpdate(id, {
+       $pull: {
+         members: req.payload.id,
+      },
+     });
+   res.json(team);
+ });
 
 
 module.exports = router;
