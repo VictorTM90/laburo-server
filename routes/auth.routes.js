@@ -9,16 +9,16 @@ router.post("/signup", async (req, res, next) => {
 
   // requerir los campos
   if (!email || !password || !name) {
-    res.status(400).json({ errorMessage: "Llenar todos los campos" });
-    return;
+    res.status(403).json({ errorMessage: "Llenar todos los campos" });
+    return errorMessage;
   }
   if (password.length < 8) {
     res
-      .status(400)
+      .status(403)
       .json({
         errorMessage: "Tu contraseña tiene que ser de al menos 8 caracteres.",
       });
-    return;
+    return errorMessage;
   }
   try {
     //validadores de backend
@@ -26,7 +26,7 @@ router.post("/signup", async (req, res, next) => {
     const response = await User.findOne({ email });
 
     if (response) {
-      res.status(400).json({ errorMessage: "El usuario ya existe" });
+      res.status(403).json({ errorMessage: "El usuario ya existe" });
       return;
     }
 
@@ -44,7 +44,7 @@ router.post("/signup", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    res.status(400).json({ errorMessage: "Llenar todos los campos" });
+    res.status(403).json({ errorMessage: "Llenar todos los campos" });
     return;
   }
 
@@ -52,7 +52,7 @@ router.post("/login", async (req, res, next) => {
     const foundUser = await User.findOne({ email });
     // si el usario no existe le enviamos el error.
     if (!foundUser) {
-      res.status(401).json({ errorMessage: "Usuario no registrado" });
+      res.status(403).json({ errorMessage: "Usuario no registrado" });
       //cortar la ruta
       return;
     }
@@ -66,7 +66,7 @@ router.post("/login", async (req, res, next) => {
     );
 
     if (!isPasswordCorrect) {
-      res.status(401).json({ errorMessage: "Contraseña incorrecta." });
+      res.status(403).json({ errorMessage: "Contraseña incorrecta." });
       return;
     }
 
