@@ -19,11 +19,12 @@ require("./config")(app);
 const allRoutes = require("./routes/index.routes");
 app.use("/api", allRoutes);
 
-// const authRoutes = require("./routes/auth.routes");
-// app.use("/auth", authRoutes);
-
-
-
+app.use(
+    cors({
+      origin: ["http://localhost:3000", process.env.ORIGIN],
+    })
+  );
+  
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
